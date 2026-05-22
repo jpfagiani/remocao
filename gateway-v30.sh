@@ -432,7 +432,6 @@ EOF
         cat <<'EOF' > /etc/apt/sources.list
 # Repositórios oficiais Debian 13 (Trixie) — configurado pelo gateway
 deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
-deb http://deb.debian.org/debian trixie-updates main contrib non-free non-free-firmware
 deb http://deb.debian.org/debian trixie-backports main contrib non-free non-free-firmware
 deb http://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
 EOF
