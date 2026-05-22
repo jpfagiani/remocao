@@ -417,7 +417,7 @@ EOF
         cat <<'EOF' > /etc/apt/sources.list.d/debian.sources
 Types: deb
 URIs: http://deb.debian.org/debian
-Suites: trixie trixie-updates trixie-backports
+Suites: trixie
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
@@ -432,7 +432,6 @@ EOF
         cat <<'EOF' > /etc/apt/sources.list
 # Repositórios oficiais Debian 13 (Trixie) — configurado pelo gateway
 deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
-deb http://deb.debian.org/debian trixie-backports main contrib non-free non-free-firmware
 deb http://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
 EOF
         ok "Repositórios configurados em /etc/apt/sources.list (clássico)"
@@ -507,7 +506,7 @@ apt-get install -y -q \
     -o Dpkg::Options::="--force-confdef" \
     -o Dpkg::Options::="--force-confold" \
     nftables chrony bind9 bind9utils curl wget \
-    gnupg udev cron sudo psmisc iproute2 iputils-ping conntrack conntrack-tools logrotate \
+    gnupg udev cron sudo psmisc iproute2 iputils-ping conntrack logrotate \
     python3 python3-venv python3-full \
     libpam-runtime "${PAM_DEV_PKG}" openssl ssl-cert \
     ifupdown2 2>/dev/null || \
@@ -515,7 +514,7 @@ apt-get install -y -q \
     -o Dpkg::Options::="--force-confdef" \
     -o Dpkg::Options::="--force-confold" \
     nftables chrony bind9 bind9utils curl wget \
-    gnupg udev cron sudo psmisc iproute2 iputils-ping conntrack conntrack-tools logrotate \
+    gnupg udev cron sudo psmisc iproute2 iputils-ping conntrack logrotate \
     python3 python3-venv python3-full \
     libpam-runtime libpam0g-dev openssl ssl-cert \
     ifupdown || \
@@ -1575,13 +1574,13 @@ if command -v conntrack &>/dev/null && [ -f "$PARCIAIS_FILE" ]; then
 else
     if ! command -v conntrack &>/dev/null; then
         echo "[$TS] squid-force-block: conntrack indisponivel — apenas reconfigure aplicado."
-        echo "[$TS] AVISO: instale conntrack-tools para encerramento imediato: apt-get install -y conntrack"
+        echo "[$TS] AVISO: instale conntrack para encerramento imediato: apt-get install -y conntrack"
     fi
 fi
 
-# 3. Garantir conntrack-tools instalado (instala silenciosamente se ausente)
+# 3. Garantir conntrack instalado (instala silenciosamente se ausente)
 if ! command -v conntrack &>/dev/null; then
-    apt-get install -y -q conntrack 2>/dev/null || true
+    apt-get install -y -q conntrack 2>/dev/null || true  # pacote correto no Debian 13
 fi
 
 echo "[$TS] squid-force-block: bloqueio ativo para ips_parciais."
